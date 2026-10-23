@@ -96,7 +96,7 @@ Next.js 16 · React 19 · TypeScript 5.9 · Tailwind CSS 4 · Node.js 22 · `@mo
 Run these in **PowerShell**:
 
 ```powershell
-git clone <your-repo-url> nick      # or download and extract the ZIP
+git clone https://github.com/NitinMehra27/nick.git nick      # or download and extract the ZIP
 cd nick
 npm install
 Copy-Item .env.example .env         # optional; defaults work without it
