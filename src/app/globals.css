@@ -1,0 +1,135 @@
+@import 'tailwindcss';
+
+/* JARVIS-inspired HUD palette: deep navy surfaces, cyan accents. */
+@theme {
+  --color-bg: #04070c;
+  --color-surface: #08111a;
+  --color-raised: #0d1a26;
+  --color-line: #17304a;
+  --color-ink: #e2f4ff;
+  --color-muted: #8db0c4;
+  --color-faint: #64849a;
+  --color-accent: #38d6f5;
+  --color-accent-strong: #0e7490;
+  --color-ok: #4ade80;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Consolas', 'SFMono-Regular', Menlo, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1100px 600px at 75% -15%, rgb(56 214 245 / 0.09), transparent 60%),
+    radial-gradient(800px 500px at -10% 115%, rgb(14 116 144 / 0.12), transparent 60%),
+    var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Faint HUD grid behind the main content area. */
+.hud-grid {
+  background-image:
+    linear-gradient(rgb(56 214 245 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(56 214 245 / 0.035) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+/* NICK core: the animated status indicator (idle, thinking, speaking, offline). */
+.nick-core {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--core-size);
+  height: var(--core-size);
+  flex-shrink: 0;
+}
+.nick-core > span {
+  grid-area: 1 / 1;
+  border-radius: 9999px;
+}
+.nick-core__ring--outer {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid rgb(56 214 245 / 0.6);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: core-spin 8s linear infinite;
+}
+.nick-core__ring--inner {
+  width: 70%;
+  height: 70%;
+  border: 1.5px dashed rgb(56 214 245 / 0.45);
+  animation: core-spin 14s linear infinite reverse;
+}
+.nick-core__dot {
+  width: 38%;
+  height: 38%;
+  background: radial-gradient(circle, #e0faff 0%, #38d6f5 45%, rgb(14 116 144 / 0.5) 100%);
+  box-shadow: 0 0 calc(var(--core-size) * 0.35) rgb(56 214 245 / 0.55);
+  animation: core-breathe 4s ease-in-out infinite;
+}
+.nick-core--thinking .nick-core__ring--outer {
+  animation-duration: 1.1s;
+}
+.nick-core--thinking .nick-core__ring--inner {
+  animation-duration: 1.8s;
+}
+.nick-core--thinking .nick-core__dot {
+  animation-duration: 1s;
+}
+.nick-core--speaking .nick-core__dot {
+  animation: core-talk 0.32s ease-in-out infinite alternate;
+}
+.nick-core--offline {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+.nick-core--offline > span {
+  animation-play-state: paused;
+}
+@keyframes core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes core-breathe {
+  50% {
+    transform: scale(0.82);
+    opacity: 0.8;
+  }
+}
+@keyframes core-talk {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# local environment (never commit real configuration)
+.env
+.env.local
+.env.*.local
+
+# local SQLite databases (contain personal tasks and memories)
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# test artifacts
+coverage/
+.vitest-tmp/
+
+# logs and OS files
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
